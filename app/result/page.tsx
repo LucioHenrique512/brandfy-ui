@@ -5,14 +5,23 @@ import { Button, Stack, TextField } from "@mui/material";
 import { BackHeader } from "../components/back-header";
 import { useEffect, useState } from "react";
 import { postRender } from "../api";
+import { Carousel } from "react-responsive-carousel";
+import Image from "next/image";
 
 export default function Result() {
   const { back, push } = useRouter();
 
-  const [result, setResult] = useState<string>();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const { logoFile, address, whatsApp, selectedTemplate } = useContext();
+  const {
+    logoFile,
+    address,
+    whatsApp,
+    selectedTemplate,
+    price,
+    result,
+    setResult,
+  } = useContext();
 
   useEffect(() => {
     const render = async () => {
@@ -23,15 +32,17 @@ export default function Result() {
           idTemplate: selectedTemplate,
           logo: logoFile,
           whatsApp,
+          price,
         });
-        setResult(response.data.images[0]);
+        setResult(response.data.images);
       } catch (error: any) {
+        push("/");
         alert(error?.message ?? "Deu ruim!");
       } finally {
         setLoading(false);
       }
     };
-    if (!result) render();
+    if (result.length === 0) render();
   }, []);
 
   const handleGenerate = () => {
@@ -51,11 +62,17 @@ export default function Result() {
         </div>
       </div>
       <>
-        {loading ? (
+        {loading && result.length === 0 ? (
           <>Carregando...</>
         ) : (
           <>
-            <img src={result} />
+            <Carousel>
+              {result.map((imgPath, index) => (
+                <div key={index}>
+                  <img src={imgPath} />
+                </div>
+              ))}
+            </Carousel>
           </>
         )}
       </>

@@ -7,6 +7,7 @@ type RenderPayloadType = {
   address: string;
   idTemplate: string;
   logo: string;
+  price: number;
 };
 
 type RenderResponseType = {

@@ -3,11 +3,20 @@ import { useContext } from "@/app/context";
 import { useRouter } from "next/navigation";
 import { Button, Stack, TextField } from "@mui/material";
 import { BackHeader } from "../components/back-header";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 export default function TextForm() {
   const { back, push } = useRouter();
 
-  const { logoFile, address, setAddress, whatsApp, setWhatsApp } = useContext();
+  const {
+    logoFile,
+    address,
+    setAddress,
+    whatsApp,
+    setWhatsApp,
+    price,
+    setPrice,
+  } = useContext();
 
   const handleGenerate = () => {
     if (!logoFile) {
@@ -39,6 +48,19 @@ export default function TextForm() {
           hiddenLabel
           onChange={(e) => setAddress(e.target.value)}
           value={address}
+          variant="outlined"
+          fullWidth
+          label="Endereço"
+        />
+        <TextField
+          hiddenLabel
+          onChange={(e) => {
+            try {
+              setPrice(parseFloat(e.target.value));
+            } catch (error) {}
+          }}
+          value={price.toString()}
+          type="number"
           variant="outlined"
           fullWidth
           label="Endereço"
