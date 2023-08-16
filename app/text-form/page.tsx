@@ -63,7 +63,7 @@ export default function TextForm() {
           type="number"
           variant="outlined"
           fullWidth
-          label="Endereço"
+          label="Preço"
         />
       </Stack>
       <Button
